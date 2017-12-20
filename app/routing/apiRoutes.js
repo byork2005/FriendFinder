@@ -15,7 +15,15 @@ module.exports = function(app)
         var newName = newUser.name;
         var newPhoto = newUser.photo;
         var newScores = newUser.scores;
-        
+
+        console.log("\n")
+        console.log(newUser)
+        console.log("\n")
+        console.log(newScores)
+        console.log("\n")
+       
+
+
         var closestMatch = {
             name: "",
             photo: "",
@@ -27,7 +35,7 @@ module.exports = function(app)
         for(var i = 0; i < friends.length; i++)
         {
             totalDifference = 0;
-            for(var j = 0; i < friends[i].scores.length; j++)
+            for(var j = 0; i < friends[i].scores[j]; j++)
             {
                 totalDifference += Math.abs(parseInt(newScores[j])- friends[i].scores[j]);
 
@@ -42,7 +50,7 @@ module.exports = function(app)
 
     });
 
-    friends.push(newUser);
+    // friends.push(newUser);
 
 }
 
