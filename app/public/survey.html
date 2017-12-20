@@ -113,7 +113,7 @@
             <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit"><i class="fa fa-check-circle" aria-hidden="true"></i>Submit</button>
             <br>
             <footer>
-                <p><a href="/api/friends">API Friends List</a>  |  <a href="">GitHub Repo</a></p>
+                <p><a href="/api/friends">API Friends List</a>  |  <a href="https://github.com/byork2005/FriendFinder">GitHub Repo</a></p>
             </footer>
         </div>
 
@@ -122,11 +122,11 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"> X </button>
-                        <h2 class="modal-title"><b>Your Potential Friend is:</b></h2>
+                        <h2 class="modal-title" id="modalTitle"><b></b></h2>
                     </div>
                     <div class="modal-body">
                         <h2 id="modalName"></h2>
-                        <img id="modalPic" src="" height="300" width="250" >
+                        <img id="modalPic" src="" max-height="350" max-width="200" >
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" id="closeModal" data-dismiss="modal">Close</button>
@@ -154,41 +154,41 @@
                     return isValid;
                 }
 
-                var test = $("#q1").val();
-                console.log("Test " + test)
-
                 if(filledOut() == true)
                 {
                     var newUser = {
                         name: $("#name").val().trim(),
                         photo: $("#photo").val(),
                         scores: []
-                            // $("#q1").attr("value"),
-                        //     $("#q2").attr("value"),
-                        //     $("#q3").attr("value"),
-                        //     $("#q4").attr("value"),
-                        //     $("#q5").attr("value"),
-                        //     $("#q6").attr("value"),
-                        //     $("#q7").attr("value"),
-                        //     $("#q8").attr("value"),
-                        //     $("#q9").attr("value"),
-                        //     $("#q10").attr("value")
-                        // ]
                     }
 
-                    newUser.scores
-                };
+                    for(var i = 1; i < 11; i++)
+                    {
+                        newUser.scores.push($("#q" + i ).val())
+                    }
 
-                var currentPage = window.location.origin;
+                    var currentPage = window.location.origin;
 
-                $.post(currentPage + "/api/friends", newUser, function(data)
+                    $.ajaxSetup({ traditional: true });
+                    $.post(currentPage + "/api/friends", newUser, function(data)
+                    {
+                        console.log(newUser)
+                        console.log(data)
+                        console.log(typeof(newUser))
+                        console.log("Name: ", data.name)
+                        $("#modalName").text(data.name);
+                        $("#modalPic").attr("src", data.photo);
+                        $("#modalTitle").text("Your Potential Friend is:");
+                        $("#bestModal").modal("toggle");
+                        $("#name").val("");
+                        $("#photo").val("")
+                    })
+                } else 
                 {
-                    $("#modalName").text(data.name);
-                    $("#modalPic").attr("src", data.photo);
+                    $("#modalTitle").text("Please fill out the form completely!");
                     $("#bestModal").modal("toggle");
-                    // $("#name").val("");
-                    // $("#photo").val("")
-                })
+                    console.log("Fill out form pleae")
+                };
            
                 
             })
